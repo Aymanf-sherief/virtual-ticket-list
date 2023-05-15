@@ -1,18 +1,17 @@
-import React, { useMemo, useState } from "react";
-import { Ticket } from "../../api/types";
+import React, { useContext, useMemo, useState } from "react";
 import TicketCard from "../TicketCard";
+import { TicketsContext } from "../../pages/TicketListPage/TicketListPage";
 
 interface VirtualListProps {
-  tickets: Ticket[];
   heightPx: number;
   ticketHeightPx?: number;
 }
 
 const VirtualList: React.FC<VirtualListProps> = ({
-  tickets,
   heightPx,
   ticketHeightPx = 200,
 }) => {
+  const { tickets } = useContext(TicketsContext);
   // get the current scroll position from top in list container
   const [scrollTop, setScrollTop] = useState(0);
 
@@ -20,7 +19,7 @@ const VirtualList: React.FC<VirtualListProps> = ({
   // if we don't use a component with full scroll height available
   // the scroll height will reset everytime we re-calculate the rendered tickets list below
   const fullScrollHeight = useMemo(
-    () => tickets.length * ticketHeightPx,
+    () => (tickets ? tickets.length * ticketHeightPx : 0),
     [tickets, ticketHeightPx]
   );
 
@@ -35,14 +34,14 @@ const VirtualList: React.FC<VirtualListProps> = ({
     () =>
       Math.min(
         Math.ceil(heightPx / ticketHeightPx) + ticketsStartIndex,
-        tickets.length - 1
+        tickets ? tickets.length - 1 : 0
       ),
     [ticketsStartIndex, heightPx, ticketHeightPx, tickets]
   );
 
   // slice the tickets array to get the tickets to render, only render the ones that should be visible
   const renderedTickets = useMemo(
-    () => tickets.slice(ticketsStartIndex, ticketsEndIndex),
+    () => tickets?.slice(ticketsStartIndex, ticketsEndIndex) ?? [],
     [tickets, ticketsStartIndex, ticketsEndIndex]
   );
 

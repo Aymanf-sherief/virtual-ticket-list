@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import "./TicketListPage.css";
 import { listTickets } from "../../api/tickets";
 import { Ticket } from "../../api/types";
@@ -17,6 +17,7 @@ export const TicketsContext = React.createContext<TicketsContextData>({});
 
 const TicketListPage: React.FC = () => {
   const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [query, setQuery] = useState<string>("");
   const [heightPx, setHeightPx] = useState(0);
 
   const ref = useRef<HTMLDivElement>(null);
@@ -30,6 +31,15 @@ const TicketListPage: React.FC = () => {
       .then((tickets) => setTickets(tickets))
       .catch((err) => console.error(err));
   }, []);
+
+  const filteredTickets = useMemo(() => {
+    const normalizedQuery = query.trim().toLowerCase();
+    return tickets.filter(
+      (t) =>
+        t.subject.toLowerCase().includes(normalizedQuery) ||
+        t.description.toLowerCase().includes(normalizedQuery)
+    );
+  }, [query, tickets]);
 
   const updateTicket = useCallback(
     (ticket: Ticket) =>
@@ -54,14 +64,18 @@ const TicketListPage: React.FC = () => {
     <div className="container" ref={ref}>
       <TicketsContext.Provider
         value={{
-          tickets,
+          tickets: filteredTickets,
           updateTicket,
           deleteTicket,
           addTicket,
         }}
       >
         <AddTicketForm />
-        <VirtualList tickets={tickets} heightPx={heightPx} />
+        <div className="searchbox">
+          <label>Search: </label>
+          <input value={query} onChange={(e) => setQuery(e.target.value)} />
+        </div>
+        <VirtualList heightPx={heightPx} />
       </TicketsContext.Provider>
     </div>
   );
