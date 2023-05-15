@@ -4,6 +4,7 @@ import { listTickets } from "../../api/tickets";
 import { Ticket } from "../../api/types";
 import VirtualList from "../../components/VirtualList";
 import React from "react";
+import AddTicketForm from "../../forms/AddTicketForm";
 
 interface TicketsContextData {
   tickets?: Ticket[];
@@ -59,6 +60,7 @@ const TicketListPage: React.FC = () => {
           addTicket,
         }}
       >
+        <AddTicketForm />
         <VirtualList tickets={tickets} heightPx={heightPx} />
       </TicketsContext.Provider>
     </div>

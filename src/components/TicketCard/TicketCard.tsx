@@ -8,7 +8,7 @@ interface TicketProps {
 }
 
 const TicketCard: React.FC<TicketProps> = ({ ticket, heightPx }) => {
-  const ticketsContext = useContext(TicketsContext);
+  const { updateTicket, deleteTicket } = useContext(TicketsContext);
 
   const [isEditing, setIsEditing] = useState(false);
   const [currentTicket, setCurrentTicket] = useState<Ticket>(ticket);
@@ -24,19 +24,18 @@ const TicketCard: React.FC<TicketProps> = ({ ticket, heightPx }) => {
   );
 
   const handleDelete = useCallback(
-    () => ticketsContext.deleteTicket?.(ticket),
-    [ticketsContext, ticket]
+    () => deleteTicket?.(ticket),
+    [deleteTicket, ticket]
   );
 
   const handleSave = useCallback(() => {
-    ticketsContext.updateTicket?.(ticket);
+    updateTicket?.(ticket);
     setIsEditing(false);
-  }, [ticketsContext, ticket]);
+  }, [updateTicket, ticket]);
 
   return (
     <div
       className="ticket"
-      key={currentTicket.id}
       style={{ height: `${heightPx}px` }}
     >
       {isEditing ? (

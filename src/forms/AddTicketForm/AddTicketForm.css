@@ -1,0 +1,25 @@
+.button-controls {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  margin: auto;
+}
+
+.ticket-form {
+  display: flex;
+  flex-direction: column;
+  width: 50vw;
+  margin: 1rem auto;
+  gap: 1rem;
+  background-color: #333;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  height: 16vh;
+}
+
+.form-priority-status {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  justify-content: start;
+}
