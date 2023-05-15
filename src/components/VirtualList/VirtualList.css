@@ -1,0 +1,12 @@
+.virtual-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+}
+
+.virtual-list-container {
+  width: 80vw;
+  margin-right: auto;
+  margin-left: auto;
+}
