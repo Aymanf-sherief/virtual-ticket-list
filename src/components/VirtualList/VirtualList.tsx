@@ -11,7 +11,7 @@ interface VirtualListProps {
 const VirtualList: React.FC<VirtualListProps> = ({
   tickets,
   heightPx,
-  ticketHeightPx = 140,
+  ticketHeightPx = 200,
 }) => {
   // get the current scroll position from top in list container
   const [scrollTop, setScrollTop] = useState(0);

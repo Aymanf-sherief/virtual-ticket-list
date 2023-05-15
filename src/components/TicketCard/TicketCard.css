@@ -21,6 +21,8 @@
   gap: 1rem;
   text-transform: uppercase;
   margin: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
 }
 
 .ticket-description {
@@ -41,4 +43,10 @@
   border-radius: 1rem;
   background-color: #f5f5f5;
   padding: 1rem;
+}
+
+.button-controls {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
 }
