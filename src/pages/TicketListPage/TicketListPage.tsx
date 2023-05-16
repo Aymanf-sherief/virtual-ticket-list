@@ -29,7 +29,10 @@ const TicketListPage: React.FC = () => {
   useEffect(() => {
     listTickets()
       .then((tickets) => setTickets(tickets))
-      .catch((err) => console.error(err));
+      .catch((err) => {
+        console.error(err);
+        alert("Failed to load tickets");
+      });
   }, []);
 
   const filteredTickets = useMemo(() => {

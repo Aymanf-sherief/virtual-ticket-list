@@ -92,6 +92,7 @@ const VirtualList: React.FC<VirtualListProps> = ({
             top: `${renderedTicketsTop}px`,
           }}
         >
+          {(!tickets || tickets?.length === 0) && <div>No tickets found</div>}
           {renderedTickets.map((ticket) => (
             <TicketCard
               ticket={ticket}
