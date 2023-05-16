@@ -7,6 +7,11 @@ interface TicketProps {
   heightPx: number;
 }
 
+/**
+ * a component responsible for renderign a single ticket info and controls
+ * @param ticket: a Ticket object to render
+ * @param heightPx: the height of the ticket card
+ */
 const TicketCard: React.FC<TicketProps> = ({ ticket, heightPx }) => {
   const { updateTicket, deleteTicket } = useContext(TicketsContext);
 
@@ -34,10 +39,7 @@ const TicketCard: React.FC<TicketProps> = ({ ticket, heightPx }) => {
   }, [updateTicket, ticket]);
 
   return (
-    <div
-      className="ticket"
-      style={{ height: `${heightPx}px` }}
-    >
+    <div className="ticket" style={{ height: `${heightPx}px` }}>
       {isEditing ? (
         <input
           name="subject"

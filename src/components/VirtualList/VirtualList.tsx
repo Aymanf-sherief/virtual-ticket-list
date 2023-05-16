@@ -7,17 +7,24 @@ interface VirtualListProps {
   ticketHeightPx?: number;
 }
 
+/**
+ * A component responsible for rendering a virtual list of tickets
+ * should allow user to smoothly scroll through a large (10000+) list of tickets with no performance issues
+ */
 const VirtualList: React.FC<VirtualListProps> = ({
   heightPx,
   ticketHeightPx = 200,
 }) => {
   const { tickets } = useContext(TicketsContext);
-  // get the current scroll position from top in list container
+
+  // keep track of the current scroll position from top in list container
   const [scrollTop, setScrollTop] = useState(0);
 
-  // calculate the total available scroll height based on the number of tickets and the ticket height
-  // if we don't use a component with full scroll height available
-  // the scroll height will reset everytime we re-calculate the rendered tickets list below
+  /**
+   * calculate the total available scroll height based on the number of tickets and the ticket height
+   * if we don't use a component with full scroll height available
+   * the scroll height will reset everytime we re-calculate the rendered tickets list below
+   */
   const fullScrollHeight = useMemo(
     () => (tickets ? tickets.length * ticketHeightPx : 0),
     [tickets, ticketHeightPx]
@@ -39,22 +46,26 @@ const VirtualList: React.FC<VirtualListProps> = ({
     [ticketsStartIndex, heightPx, ticketHeightPx, tickets]
   );
 
-  // slice the tickets array to get the tickets to render, only render the ones that should be visible
-  const renderedTickets = useMemo(
-    () => tickets?.slice(ticketsStartIndex, ticketsEndIndex) ?? [],
-    [tickets, ticketsStartIndex, ticketsEndIndex]
-  );
-
   // height of the rendered tickets list, this is used to set the visible window height
   const renderedTicketsHeight = useMemo(
-    () => renderedTickets.length * ticketHeightPx,
-    [renderedTickets, ticketHeightPx]
+    () => (ticketsEndIndex - ticketsStartIndex) * ticketHeightPx,
+    [ticketsEndIndex, ticketsStartIndex, ticketHeightPx]
   );
 
   // top position of the rendered tickets list, this is used to set the visible window top position
   const renderedTicketsTop = useMemo(
     () => ticketsStartIndex * ticketHeightPx,
     [ticketsStartIndex, ticketHeightPx]
+  );
+
+  // slice the tickets array to get the tickets to render, only render the ones that should be visible
+  const renderedTickets = useMemo(
+    () =>
+      tickets?.slice(
+        Math.max(0, ticketsStartIndex - 1),
+        Math.min(ticketsEndIndex + 1, tickets.length)
+      ) ?? [],
+    [tickets, ticketsStartIndex, ticketsEndIndex]
   );
 
   const handleScroll = (event: React.UIEvent<HTMLDivElement>) => {

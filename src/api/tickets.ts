@@ -1,8 +1,9 @@
 import { Ticket } from "./types";
 
-/*
-  * This is a mock API call that returns a list of tickets.
-*/
+/**
+ * a mock api call that returns anywhere between 100k and 200k tickets
+ * @returns {Promise<Ticket[]>} A promise that resolves to an array of tickets
+ */
 export const listTickets = async (): Promise<Ticket[]> => {
   const min = 100_000;
   const max = 200_000;
