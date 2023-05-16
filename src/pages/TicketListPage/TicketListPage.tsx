@@ -41,6 +41,9 @@ const TicketListPage: React.FC = () => {
     );
   }, [query, tickets]);
 
+  /**
+   * Update ticket in the list
+   */
   const updateTicket = useCallback(
     (ticket: Ticket) =>
       setTickets((tickets) =>
@@ -49,12 +52,18 @@ const TicketListPage: React.FC = () => {
     [setTickets]
   );
 
+  /**
+   * Delete ticket from the list
+   */
   const deleteTicket = useCallback(
     (ticket: Ticket) =>
       setTickets((tickets) => tickets.filter((t) => t.id !== ticket.id)),
     [setTickets]
   );
 
+  /**
+   * Add ticket to the list
+   */
   const addTicket = useCallback(
     (ticket: Ticket) => setTickets((tickets) => [ticket, ...tickets]),
     [setTickets]

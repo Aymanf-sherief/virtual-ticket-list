@@ -34,9 +34,9 @@ const TicketCard: React.FC<TicketProps> = ({ ticket, heightPx }) => {
   );
 
   const handleSave = useCallback(() => {
-    updateTicket?.(ticket);
+    updateTicket?.(currentTicket);
     setIsEditing(false);
-  }, [updateTicket, ticket]);
+  }, [updateTicket, currentTicket]);
 
   return (
     <div className="ticket" style={{ height: `${heightPx}px` }}>
